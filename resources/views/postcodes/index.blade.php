@@ -6,35 +6,34 @@
     <title>Brunei Postcode Explorer</title>
     <style>
         :root {
-            --green: #16a34a;
-            --green-strong: #15803d;
-            --red: #dc2626;
-            --yellow: #f59e0b;
-            --black: #0f172a;
-            --card: #0b1120;
-            --muted: #cbd5e1;
+            --green: #1a9c55;
+            --green-strong: #0f7c3a;
+            --yellow: #f4c430;
+            --red: #e04f42;
+            --ink: #0f172a;
+            --muted: #475569;
+            --surface: #fdfcf7;
+            --card: #ffffff;
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
             font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: radial-gradient(circle at 15% 20%, rgba(34, 197, 94, 0.14), transparent 25%),
-                        radial-gradient(circle at 80% 10%, rgba(248, 180, 0, 0.14), transparent 30%),
-                        linear-gradient(145deg, #020617, #0b1224 50%, #020617);
-            color: #e2e8f0;
+            background: radial-gradient(circle at 12% 20%, rgba(26, 156, 85, 0.08), transparent 28%),
+                        radial-gradient(circle at 82% 12%, rgba(244, 196, 48, 0.12), transparent 30%),
+                        linear-gradient(145deg, #f9fafb, #fefcf4 45%, #f7f9fb);
+            color: var(--ink);
             min-height: 100vh;
         }
 
         a { color: inherit; text-decoration: none; }
 
         .page {
-            max-width: 1280px;
+            max-width: 1180px;
             margin: 0 auto;
-            padding: 2rem 1.25rem 3rem;
+            padding: 2.5rem 1.25rem 3.25rem;
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
@@ -45,14 +44,14 @@
             align-items: center;
             justify-content: space-between;
             gap: 1rem;
-            background: rgba(15, 23, 42, 0.7);
-            border: 1px solid rgba(203, 213, 225, 0.1);
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(26, 156, 85, 0.15);
+            border-radius: 18px;
             padding: 1rem 1.25rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
             backdrop-filter: blur(8px);
             position: sticky;
-            top: 0.75rem;
+            top: 0.9rem;
             z-index: 5;
         }
 
@@ -63,22 +62,22 @@
         }
 
         .brand-icon {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             display: grid;
             place-items: center;
-            background: conic-gradient(from 110deg, var(--green), var(--yellow), var(--red), var(--green));
-            border-radius: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.16);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+            background: conic-gradient(from 110deg, var(--green), var(--yellow), #fef9c3, var(--green));
+            border-radius: 14px;
+            border: 2px solid rgba(26, 156, 85, 0.2);
+            box-shadow: 0 12px 28px rgba(26, 156, 85, 0.25);
             font-weight: 800;
-            color: #0b1120;
+            color: var(--ink);
         }
 
         .brand h1 {
             margin: 0;
             font-size: 1.25rem;
-            color: #f8fafc;
+            color: var(--ink);
         }
 
         .nav-links {
@@ -91,23 +90,28 @@
         .nav-links a {
             padding: 0.55rem 0.9rem;
             border-radius: 12px;
-            font-weight: 600;
-            border: 1px solid rgba(226, 232, 240, 0.12);
-            background: rgba(255, 255, 255, 0.04);
-            color: #e2e8f0;
-            transition: transform 0.15s ease, background 0.15s ease, border 0.15s ease;
+            font-weight: 650;
+            border: 1px solid rgba(26, 156, 85, 0.16);
+            background: rgba(26, 156, 85, 0.08);
+            color: var(--ink);
+            transition: transform 0.15s ease, background 0.15s ease, border 0.15s ease, box-shadow 0.15s ease;
         }
 
-        .nav-links a:hover { background: rgba(22, 163, 74, 0.15); transform: translateY(-1px); border-color: rgba(34, 197, 94, 0.35); }
+        .nav-links a:hover {
+            background: rgba(244, 196, 48, 0.14);
+            transform: translateY(-1px);
+            border-color: rgba(244, 196, 48, 0.5);
+            box-shadow: 0 10px 20px rgba(244, 196, 48, 0.22);
+        }
 
         .hero {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.18), rgba(248, 180, 0, 0.2)),
-                        radial-gradient(circle at 70% 10%, rgba(220, 38, 38, 0.12), transparent 40%),
-                        #0b1224;
+            background: radial-gradient(circle at 18% 30%, rgba(26, 156, 85, 0.15), transparent 35%),
+                        radial-gradient(circle at 80% 0%, rgba(244, 196, 48, 0.16), transparent 40%),
+                        linear-gradient(120deg, #ffffff, #fefbf3);
             border-radius: 22px;
-            padding: 2rem;
-            border: 1px solid rgba(226, 232, 240, 0.1);
-            box-shadow: 0 18px 38px rgba(0, 0, 0, 0.4);
+            padding: 2.25rem;
+            border: 1px solid rgba(26, 156, 85, 0.18);
+            box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12);
         }
 
         .hero-header {
@@ -122,17 +126,17 @@
             display: inline-flex;
             align-items: center;
             gap: 0.45rem;
-            padding: 0.4rem 0.85rem;
+            padding: 0.45rem 0.9rem;
             border-radius: 999px;
-            font-weight: 700;
+            font-weight: 750;
             letter-spacing: 0.01em;
-            background: rgba(22, 163, 74, 0.18);
-            color: #bef264;
-            border: 1px solid rgba(190, 242, 100, 0.4);
+            background: rgba(26, 156, 85, 0.16);
+            color: var(--green-strong);
+            border: 1px solid rgba(26, 156, 85, 0.4);
         }
 
-        .title { color: #f8fafc; margin: 0; font-size: 2rem; }
-        .subtitle { color: #cbd5e1; margin: 0.35rem 0 0; max-width: 760px; line-height: 1.6; }
+        .title { color: var(--ink); margin: 0; font-size: 2.05rem; }
+        .subtitle { color: var(--muted); margin: 0.35rem 0 0; max-width: 760px; line-height: 1.6; }
 
         .hero-actions {
             display: flex;
@@ -146,17 +150,17 @@
             gap: 0.4rem;
             padding: 0.7rem 1.05rem;
             border-radius: 12px;
-            border: 1px solid rgba(226, 232, 240, 0.12);
-            background: rgba(255, 255, 255, 0.06);
-            color: #e2e8f0;
-            font-weight: 700;
+            border: 1px solid rgba(26, 156, 85, 0.18);
+            background: rgba(26, 156, 85, 0.08);
+            color: var(--ink);
+            font-weight: 750;
             cursor: pointer;
             transition: all 0.15s ease;
         }
 
-        .pill-btn:hover { transform: translateY(-1px); }
-        .pill-btn.primary { background: linear-gradient(120deg, var(--green), #22c55e); color: #022c1b; border: none; box-shadow: 0 10px 25px rgba(34, 197, 94, 0.35); }
-        .pill-btn.warning { border-color: rgba(245, 158, 11, 0.3); color: #fbbf24; }
+        .pill-btn:hover { transform: translateY(-1px); box-shadow: 0 14px 30px rgba(26, 156, 85, 0.2); }
+        .pill-btn.primary { background: linear-gradient(120deg, var(--green), #9ae6b4); color: #06331d; border: none; box-shadow: 0 12px 25px rgba(26, 156, 85, 0.35); }
+        .pill-btn.warning { border-color: rgba(244, 196, 48, 0.5); color: #b45309; background: rgba(244, 196, 48, 0.16); }
 
         .grid {
             display: grid;
@@ -165,35 +169,57 @@
             margin-top: 1.25rem;
         }
 
-        .stat {
-            background: rgba(15, 23, 42, 0.75);
-            border: 1px solid rgba(226, 232, 240, 0.08);
+        .path-grid {
+            margin-top: 1.25rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 0.85rem;
+        }
+
+        .path-card {
+            background: #ffffff;
+            border: 1px solid rgba(26, 156, 85, 0.12);
             border-radius: 14px;
-            padding: 1rem;
+            padding: 0.85rem 1rem;
+            display: grid;
+            gap: 0.35rem;
+            align-content: center;
+            box-shadow: 0 12px 26px rgba(15, 23, 42, 0.06);
+        }
+
+        .path-card strong { color: var(--ink); }
+        .path-card span { color: var(--muted); font-size: 0.95rem; }
+
+        .stat {
+            background: #ffffff;
+            border: 1px solid rgba(26, 156, 85, 0.12);
+            border-radius: 14px;
+            padding: 1.1rem;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
         }
 
         .stat::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08), transparent 40%);
+            background: radial-gradient(circle at 80% 20%, rgba(244, 196, 48, 0.16), transparent 40%);
             pointer-events: none;
         }
 
-        .stat h3 { margin: 0; color: #f8fafc; font-size: 1.1rem; }
-        .stat p { margin: 0.15rem 0 0; color: #cbd5e1; }
-        .stat .value { font-size: 1.75rem; font-weight: 800; margin-top: 0.35rem; color: #bef264; }
-        .stat.red .value { color: #f87171; }
-        .stat.yellow .value { color: #fbbf24; }
+        .stat h3 { margin: 0; color: var(--ink); font-size: 1.1rem; }
+        .stat p { margin: 0.15rem 0 0; color: var(--muted); }
+        .stat .value { font-size: 1.75rem; font-weight: 800; margin-top: 0.35rem; color: var(--green-strong); }
+        .stat.red .value { color: var(--red); }
+        .stat.yellow .value { color: var(--yellow); }
 
         .panel {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(226, 232, 240, 0.08);
+            background: #ffffff;
+            border: 1px solid rgba(26, 156, 85, 0.12);
             border-radius: 16px;
-            padding: 1.25rem;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+            padding: 1.35rem;
+            box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
         }
 
         .section-heading {
@@ -204,8 +230,8 @@
             margin-bottom: 0.75rem;
         }
 
-        .section-heading h2 { margin: 0; color: #f8fafc; font-size: 1.35rem; }
-        .section-heading span { color: #cbd5e1; }
+        .section-heading h2 { margin: 0; color: var(--ink); font-size: 1.35rem; }
+        .section-heading span { color: var(--muted); }
 
         .search-row {
             display: grid;
@@ -219,15 +245,15 @@
             width: 100%;
             padding: 0.95rem 1.05rem;
             border-radius: 12px;
-            border: 1px solid rgba(226, 232, 240, 0.18);
-            background: rgba(255, 255, 255, 0.04);
-            color: #e2e8f0;
+            border: 1px solid rgba(26, 156, 85, 0.2);
+            background: #f8fafc;
+            color: var(--ink);
             font-size: 1rem;
             outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
         }
 
-        .search-input:focus { border-color: rgba(34, 197, 94, 0.65); box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2); }
+        .search-input:focus { border-color: rgba(26, 156, 85, 0.65); box-shadow: 0 0 0 3px rgba(26, 156, 85, 0.18); background: #fff; }
 
         .quick-filters {
             display: flex;
@@ -239,41 +265,42 @@
         .chip {
             padding: 0.5rem 0.85rem;
             border-radius: 999px;
-            background: rgba(15, 23, 42, 0.65);
-            border: 1px solid rgba(226, 232, 240, 0.14);
-            color: #e2e8f0;
-            font-weight: 600;
+            background: #fef9c3;
+            border: 1px solid rgba(244, 196, 48, 0.45);
+            color: #854d0e;
+            font-weight: 650;
             cursor: pointer;
             transition: all 0.15s ease;
         }
 
-        .chip:hover { background: rgba(34, 197, 94, 0.2); border-color: rgba(34, 197, 94, 0.45); }
+        .chip:hover { background: rgba(26, 156, 85, 0.16); border-color: rgba(26, 156, 85, 0.5); color: var(--green-strong); }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 1rem;
-            background: rgba(11, 17, 32, 0.9);
+            background: #ffffff;
             border-radius: 14px;
             overflow: hidden;
-            border: 1px solid rgba(226, 232, 240, 0.08);
+            border: 1px solid rgba(26, 156, 85, 0.12);
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
         }
 
-        thead { background: linear-gradient(90deg, #0f172a, #1e293b); color: #f8fafc; position: sticky; top: 72px; z-index: 2; }
+        thead { background: linear-gradient(90deg, #ecfccb, #fef9c3); color: #0f172a; position: sticky; top: 72px; z-index: 2; }
 
         th, td {
             padding: 0.9rem 1rem;
             text-align: left;
-            border-bottom: 1px solid rgba(226, 232, 240, 0.08);
+            border-bottom: 1px solid rgba(15, 23, 42, 0.06);
         }
 
-        th { font-weight: 700; letter-spacing: 0.02em; font-size: 0.95rem; }
+        th { font-weight: 750; letter-spacing: 0.02em; font-size: 0.95rem; }
 
-        tbody tr:nth-child(odd) { background: rgba(255, 255, 255, 0.02); }
-        tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.05); }
-        tbody tr:hover { background: rgba(34, 197, 94, 0.08); }
+        tbody tr:nth-child(odd) { background: #f8fafc; }
+        tbody tr:nth-child(even) { background: #fffef7; }
+        tbody tr:hover { background: rgba(26, 156, 85, 0.08); }
 
-        .mono { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; color: #e2e8f0; }
+        .mono { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; color: var(--ink); }
         .pill {
             display: inline-flex;
             align-items: center;
@@ -281,16 +308,16 @@
             padding: 0.35rem 0.65rem;
             border-radius: 999px;
             font-weight: 700;
-            background: rgba(248, 180, 0, 0.16);
-            color: #fde68a;
+            background: rgba(244, 196, 48, 0.18);
+            color: #854d0e;
         }
 
-        .pill.red { background: rgba(220, 38, 38, 0.16); color: #fecdd3; }
-        .pill.green { background: rgba(34, 197, 94, 0.2); color: #bbf7d0; }
+        .pill.red { background: rgba(224, 79, 66, 0.15); color: #7f1d1d; }
+        .pill.green { background: rgba(26, 156, 85, 0.18); color: var(--green-strong); }
 
         .helper {
             margin-top: 0.5rem;
-            color: #cbd5e1;
+            color: var(--muted);
             font-size: 0.95rem;
         }
 
@@ -312,7 +339,7 @@
                 <div class="brand-icon">BP</div>
                 <div>
                     <h1>Brunei Postcode</h1>
-                    <small style="color: #94a3b8;">Navigate → Discover → Copy</small>
+                    <small style="color: var(--muted);">Navigate → Discover → Copy</small>
                 </div>
             </div>
             <nav class="nav-links">
@@ -350,6 +377,25 @@
                     <h3>District coverage</h3>
                     <p>Green, yellow, red markers for fast scanning</p>
                     <div class="value">{{ $districts->count() }}</div>
+                </div>
+            </div>
+
+            <div class="path-grid" aria-label="Navigation shortcuts">
+                <div class="path-card">
+                    <strong>Guided search</strong>
+                    <span>Type anything and the table scrolls with you. Filter by district, mukim, kampong, or postcode.</span>
+                </div>
+                <div class="path-card">
+                    <strong>Quick anchors</strong>
+                    <span>Use the top navigation or chips to jump straight to the search box or browse table.</span>
+                </div>
+                <div class="path-card">
+                    <strong>Compact rows</strong>
+                    <span>Sticky headers keep context visible while you skim with green and yellow highlights.</span>
+                </div>
+                <div class="path-card">
+                    <strong>Copy-ready codes</strong>
+                    <span>Postcodes are monospaced for easier selection and quick sharing with teams.</span>
                 </div>
             </div>
         </section>
@@ -429,7 +475,7 @@
 
         function renderRows(rows) {
             if (!rows.length) {
-                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:1.2rem; color:#cbd5e1;">No matching records found.</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:1.2rem; color:var(--muted);">No matching records found.</td></tr>';
                 return;
             }
 
