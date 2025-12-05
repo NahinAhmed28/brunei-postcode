@@ -16,6 +16,7 @@ class Kampong extends Model
     protected $fillable = [
         'mukim_id',
         'name',
+        'name_bn',
         'postcode',
     ];
 
