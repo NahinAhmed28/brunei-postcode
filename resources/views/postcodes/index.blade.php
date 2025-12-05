@@ -55,6 +55,12 @@
             z-index: 5;
         }
 
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
         .brand {
             display: flex;
             align-items: center;
@@ -85,6 +91,43 @@
             gap: 0.65rem;
             align-items: center;
             flex-wrap: wrap;
+        }
+
+        .lang-toggle {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            background: rgba(26, 156, 85, 0.08);
+            border: 1px solid rgba(26, 156, 85, 0.16);
+            border-radius: 999px;
+            overflow: hidden;
+            min-width: 180px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+
+        .lang-option {
+            position: relative;
+            z-index: 1;
+            padding: 0.55rem 0.85rem;
+            border: none;
+            background: transparent;
+            color: var(--ink);
+            font-weight: 750;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .lang-option.active { color: #06331d; }
+
+        .lang-thumb {
+            position: absolute;
+            inset: 3px;
+            width: calc(50% - 6px);
+            background: linear-gradient(120deg, var(--green), #9ae6b4);
+            border-radius: 999px;
+            box-shadow: 0 12px 25px rgba(26, 156, 85, 0.3);
+            transform: translateX(0);
+            transition: transform 0.25s ease;
         }
 
         .nav-links a {
@@ -338,64 +381,71 @@
             <div class="brand">
                 <div class="brand-icon">BP</div>
                 <div>
-                    <h1>Brunei Postcode</h1>
-                    <small style="color: var(--muted);">Navigate → Discover → Copy</small>
+                    <h1 data-i18n="brand_title">Brunei Postcode</h1>
+                    <small style="color: var(--muted);" data-i18n="brand_subtitle">Navigate → Discover → Copy</small>
                 </div>
             </div>
-            <nav class="nav-links">
-                <a href="#overview">Overview</a>
-                <a href="#search">Search</a>
-                <a href="#table">Browse</a>
-            </nav>
+            <div class="nav-right">
+                <div class="lang-toggle" role="group" aria-label="Language selection">
+                    <div class="lang-thumb" aria-hidden="true"></div>
+                    <button class="lang-option active" data-lang="en" type="button">English</button>
+                    <button class="lang-option" data-lang="bn" type="button">বাংলা</button>
+                </div>
+                <nav class="nav-links">
+                    <a href="#overview" data-i18n="nav_overview">Overview</a>
+                    <a href="#search" data-i18n="nav_search">Search</a>
+                    <a href="#table" data-i18n="nav_browse">Browse</a>
+                </nav>
+            </div>
         </header>
 
         <section id="overview" class="hero" aria-labelledby="overview-title">
             <div class="hero-header">
                 <div>
-                    <div class="badge">Live directory</div>
-                    <h2 id="overview-title" class="title">Postcode Explorer for Brunei</h2>
-                    <p class="subtitle">Find districts, mukims, and kampongs faster with guided navigation, color-coded highlights, and responsive search powered by the latest dataset.</p>
+                    <div class="badge" data-i18n="badge_live">Live directory</div>
+                    <h2 id="overview-title" class="title" data-i18n="hero_title">Postcode Explorer for Brunei</h2>
+                    <p class="subtitle" data-i18n="hero_subtitle">Find districts, mukims, and kampongs faster with guided navigation, color-coded highlights, and responsive search powered by the latest dataset.</p>
                 </div>
                 <div class="hero-actions">
-                    <a class="pill-btn primary" href="#search">Start searching</a>
-                    <a class="pill-btn warning" href="#table">Jump to results</a>
+                    <a class="pill-btn primary" href="#search" data-i18n="hero_start">Start searching</a>
+                    <a class="pill-btn warning" href="#table" data-i18n="hero_jump">Jump to results</a>
                 </div>
             </div>
 
             <div class="grid">
                 <div class="stat">
-                    <h3>Registered kampongs</h3>
-                    <p>Directly searchable from the directory</p>
+                    <h3 data-i18n="stat_kampongs_title">Registered kampongs</h3>
+                    <p data-i18n="stat_kampongs_desc">Directly searchable from the directory</p>
                     <div class="value">{{ $kampongs->count() }}</div>
                 </div>
                 <div class="stat red">
-                    <h3>Unique mukims</h3>
-                    <p>Organized for quick skim reading</p>
+                    <h3 data-i18n="stat_mukims_title">Unique mukims</h3>
+                    <p data-i18n="stat_mukims_desc">Organized for quick skim reading</p>
                     <div class="value">{{ $mukims->count() }}</div>
                 </div>
                 <div class="stat yellow">
-                    <h3>District coverage</h3>
-                    <p>Green, yellow, red markers for fast scanning</p>
+                    <h3 data-i18n="stat_district_title">District coverage</h3>
+                    <p data-i18n="stat_district_desc">Green, yellow, red markers for fast scanning</p>
                     <div class="value">{{ $districts->count() }}</div>
                 </div>
             </div>
 
             <div class="path-grid" aria-label="Navigation shortcuts">
                 <div class="path-card">
-                    <strong>Guided search</strong>
-                    <span>Type anything and the table scrolls with you. Filter by district, mukim, kampong, or postcode.</span>
+                    <strong data-i18n="path_guided_title">Guided search</strong>
+                    <span data-i18n="path_guided_desc">Type anything and the table scrolls with you. Filter by district, mukim, kampong, or postcode.</span>
                 </div>
                 <div class="path-card">
-                    <strong>Quick anchors</strong>
-                    <span>Use the top navigation or chips to jump straight to the search box or browse table.</span>
+                    <strong data-i18n="path_anchor_title">Quick anchors</strong>
+                    <span data-i18n="path_anchor_desc">Use the top navigation or chips to jump straight to the search box or browse table.</span>
                 </div>
                 <div class="path-card">
-                    <strong>Compact rows</strong>
-                    <span>Sticky headers keep context visible while you skim with green and yellow highlights.</span>
+                    <strong data-i18n="path_compact_title">Compact rows</strong>
+                    <span data-i18n="path_compact_desc">Sticky headers keep context visible while you skim with green and yellow highlights.</span>
                 </div>
                 <div class="path-card">
-                    <strong>Copy-ready codes</strong>
-                    <span>Postcodes are monospaced for easier selection and quick sharing with teams.</span>
+                    <strong data-i18n="path_copy_title">Copy-ready codes</strong>
+                    <span data-i18n="path_copy_desc">Postcodes are monospaced for easier selection and quick sharing with teams.</span>
                 </div>
             </div>
         </section>
@@ -403,10 +453,10 @@
         <section id="search" class="panel" aria-labelledby="search-title">
             <div class="section-heading">
                 <div>
-                    <h2 id="search-title">Advanced navigation</h2>
-                    <span>Search by district, mukim, kampong, or postcode. Use quick filters to jump around.</span>
+                    <h2 id="search-title" data-i18n="search_title">Advanced navigation</h2>
+                    <span data-i18n="search_subtitle">Search by district, mukim, kampong, or postcode. Use quick filters to jump around.</span>
                 </div>
-                <button class="pill-btn" id="clear-search" type="button">Reset</button>
+                <button class="pill-btn" id="clear-search" type="button" data-i18n="reset">Reset</button>
             </div>
 
             <div class="search-row">
@@ -416,12 +466,14 @@
                     class="search-input"
                     placeholder="Start typing to filter… (e.g., Brunei Muara, Gadong, Sengkurong)"
                     aria-label="Search by district, mukim, kampong or postcode"
+                    data-i18n-placeholder="search_placeholder"
+                    data-i18n-aria="search_aria"
                     autocomplete="off"
                 >
-                <a class="pill-btn primary" href="#table">Go to table</a>
+                <a class="pill-btn primary" href="#table" data-i18n="search_cta">Go to table</a>
             </div>
 
-            <p class="helper">Use the colored chips to pre-fill searches. Green for district anchors, yellow for mukims.</p>
+            <p class="helper" data-i18n="search_helper">Use the colored chips to pre-fill searches. Green for district anchors, yellow for mukims.</p>
             <div class="quick-filters" aria-label="Quick filters">
                 @foreach ($districts as $district)
                     <button class="chip" data-term="{{ $district }}">{{ $district }}</button>
@@ -435,10 +487,10 @@
         <section id="table" class="panel" aria-labelledby="table-title">
             <div class="section-heading">
                 <div>
-                    <h2 id="table-title">Browse the directory</h2>
-                    <span>Sorted view with sticky headers. Hover rows to spotlight locations.</span>
+                    <h2 id="table-title" data-i18n="table_title">Browse the directory</h2>
+                    <span data-i18n="table_subtitle">Sorted view with sticky headers. Hover rows to spotlight locations.</span>
                 </div>
-                <div class="pill">Live · Updated</div>
+                <div class="pill" data-i18n="table_status">Live · Updated</div>
             </div>
 
             <table aria-describedby="table-title">
@@ -472,10 +524,133 @@
         const searchUrl = @json(route('postcodes.search'));
         const chips = document.querySelectorAll('.chip');
         const clearButton = document.getElementById('clear-search');
+        const langButtons = document.querySelectorAll('.lang-option');
+        const langThumb = document.querySelector('.lang-thumb');
+
+        const translations = {
+            en: {
+                brand_title: 'Brunei Postcode',
+                brand_subtitle: 'Navigate → Discover → Copy',
+                nav_overview: 'Overview',
+                nav_search: 'Search',
+                nav_browse: 'Browse',
+                badge_live: 'Live directory',
+                hero_title: 'Postcode Explorer for Brunei',
+                hero_subtitle: 'Find districts, mukims, and kampongs faster with guided navigation, color-coded highlights, and responsive search powered by the latest dataset.',
+                hero_start: 'Start searching',
+                hero_jump: 'Jump to results',
+                stat_kampongs_title: 'Registered kampongs',
+                stat_kampongs_desc: 'Directly searchable from the directory',
+                stat_mukims_title: 'Unique mukims',
+                stat_mukims_desc: 'Organized for quick skim reading',
+                stat_district_title: 'District coverage',
+                stat_district_desc: 'Green, yellow, red markers for fast scanning',
+                path_guided_title: 'Guided search',
+                path_guided_desc: 'Type anything and the table scrolls with you. Filter by district, mukim, kampong, or postcode.',
+                path_anchor_title: 'Quick anchors',
+                path_anchor_desc: 'Use the top navigation or chips to jump straight to the search box or browse table.',
+                path_compact_title: 'Compact rows',
+                path_compact_desc: 'Sticky headers keep context visible while you skim with green and yellow highlights.',
+                path_copy_title: 'Copy-ready codes',
+                path_copy_desc: 'Postcodes are monospaced for easier selection and quick sharing with teams.',
+                search_title: 'Advanced navigation',
+                search_subtitle: 'Search by district, mukim, kampong, or postcode. Use quick filters to jump around.',
+                reset: 'Reset',
+                search_cta: 'Go to table',
+                search_helper: 'Use the colored chips to pre-fill searches. Green for district anchors, yellow for mukims.',
+                table_title: 'Browse the directory',
+                table_subtitle: 'Sorted view with sticky headers. Hover rows to spotlight locations.',
+                table_status: 'Live · Updated',
+                search_placeholder: 'Start typing to filter… (e.g., Brunei Muara, Gadong, Sengkurong)',
+                search_aria: 'Search by district, mukim, kampong or postcode',
+                empty_state: 'No matching records found.'
+            },
+            bn: {
+                brand_title: 'ব্রুনাই পোস্টকোড',
+                brand_subtitle: 'অনুসন্ধান → খুঁজুন → কপি করুন',
+                nav_overview: 'সংক্ষিপ্ত বিবরণ',
+                nav_search: 'অনুসন্ধান',
+                nav_browse: 'ব্রাউজ',
+                badge_live: 'লাইভ ডিরেক্টরি',
+                hero_title: 'ব্রুনাইয়ের পোস্টকোড এক্সপ্লোরার',
+                hero_subtitle: 'গাইডেড নেভিগেশন ও রঙ-কোডেড হাইলাইট দিয়ে জেলা, মুকিম ও কাম্পং দ্রুত খুঁজুন।',
+                hero_start: 'অনুসন্ধান শুরু করুন',
+                hero_jump: 'ফলাফলে যান',
+                stat_kampongs_title: 'নিবন্ধিত কাম্পং',
+                stat_kampongs_desc: 'ডিরেক্টরি থেকে সরাসরি অনুসন্ধানযোগ্য',
+                stat_mukims_title: 'অনন্য মুকিম',
+                stat_mukims_desc: 'দ্রুত পড়ার সুবিধায় সাজানো',
+                stat_district_title: 'জেলা কভারেজ',
+                stat_district_desc: 'দ্রুত স্ক্যানের জন্য সবুজ, হলুদ ও লাল সূচক',
+                path_guided_title: 'গাইডেড সার্চ',
+                path_guided_desc: 'কিছু লিখলেই টেবিল স্ক্রল করে। জেলা, মুকিম, কাম্পং বা পোস্টকোড দিয়ে ফিল্টার করুন।',
+                path_anchor_title: 'দ্রুত অ্যাঙ্কর',
+                path_anchor_desc: 'উপরের নেভিগেশন বা চিপ ব্যবহার করে সরাসরি সার্চ বা টেবিলে যান।',
+                path_compact_title: 'কমপ্যাক্ট সারি',
+                path_compact_desc: 'স্টিকি হেডার সব সময় প্রসঙ্গ দেখায়, সবুজ ও হলুদ হাইলাইটসহ।',
+                path_copy_title: 'কপি করার জন্য প্রস্তুত কোড',
+                path_copy_desc: 'পোস্টকোড মনোস্পেসড, সহজে কপি ও শেয়ার করার জন্য।',
+                search_title: 'উন্নত নেভিগেশন',
+                search_subtitle: 'জেলা, মুকিম, কাম্পং বা পোস্টকোড দিয়ে অনুসন্ধান করুন। দ্রুত ফিল্টারের সাহায্য নিন।',
+                reset: 'রিসেট',
+                search_cta: 'টেবিলে যান',
+                search_helper: 'রঙিন চিপ দিয়ে সার্চ পূরণ করুন। সবুজ জেলা, হলুদ মুকিমের জন্য।',
+                table_title: 'ডিরেক্টরি ব্রাউজ করুন',
+                table_subtitle: 'স্টিকি হেডারসহ সাজানো দৃশ্য। সারিতে হোভার করে অবস্থান দেখুন।',
+                table_status: 'লাইভ · আপডেটেড',
+                search_placeholder: 'ফিল্টার করতে টাইপ করুন… (যেমন, Brunei Muara, Gadong, Sengkurong)',
+                search_aria: 'জেলা, মুকিম, কাম্পং বা পোস্টকোড দিয়ে অনুসন্ধান করুন',
+                empty_state: 'মিলে যাওয়া কোনো রেকর্ড পাওয়া যায়নি।'
+            }
+        };
+
+        function setLanguage(lang) {
+            const locale = translations[lang] ? lang : 'en';
+            const current = translations[locale];
+
+            document.documentElement.lang = locale === 'bn' ? 'bn' : 'en';
+
+            document.querySelectorAll('[data-i18n]').forEach((el) => {
+                const key = el.getAttribute('data-i18n');
+                if (current[key]) {
+                    el.textContent = current[key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (current[key]) {
+                    el.setAttribute('placeholder', current[key]);
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+                const key = el.getAttribute('data-i18n-aria');
+                if (current[key]) {
+                    el.setAttribute('aria-label', current[key]);
+                }
+            });
+
+            const emptyState = current.empty_state;
+            if (!tableBody.querySelector('tr')) {
+                tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:1.2rem; color:var(--muted);">${emptyState}</td></tr>`;
+            }
+        }
+
+        function updateToggle(lang) {
+            langButtons.forEach((button, index) => {
+                const isActive = button.getAttribute('data-lang') === lang;
+                button.classList.toggle('active', isActive);
+                if (isActive) {
+                    langThumb.style.transform = `translateX(${index * 100}%)`;
+                }
+            });
+        }
 
         function renderRows(rows) {
             if (!rows.length) {
-                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:1.2rem; color:var(--muted);">No matching records found.</td></tr>';
+                const emptyCopy = translations[document.documentElement.lang === 'bn' ? 'bn' : 'en'].empty_state;
+                tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:1.2rem; color:var(--muted);">${emptyCopy}</td></tr>`;
                 return;
             }
 
@@ -525,6 +700,17 @@
             handleSearch('');
             searchInput.focus();
         });
+
+        langButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const lang = button.getAttribute('data-lang');
+                updateToggle(lang);
+                setLanguage(lang);
+            });
+        });
+
+        // Initialize with English
+        setLanguage('en');
     </script>
 </body>
 </html>
