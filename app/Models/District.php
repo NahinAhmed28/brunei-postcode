@@ -11,10 +11,11 @@ class District extends Model
     use HasFactory;
 
     /**
-     * @var array<int, string>
+    * @var array<int, string>
      */
     protected $fillable = [
         'name',
+        'name_bn',
     ];
 
     /**

@@ -36,7 +36,7 @@
             padding: 2.5rem 1.25rem 3.25rem;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1.35rem;
         }
 
         .nav {
@@ -265,6 +265,11 @@
             box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
         }
 
+        .panel.table-panel {
+            padding: 1rem 1rem 1.1rem;
+            margin-top: -0.25rem;
+        }
+
         .section-heading {
             display: flex;
             justify-content: space-between;
@@ -287,16 +292,17 @@
         .search-input {
             width: 100%;
             padding: 0.95rem 1.05rem;
-            border-radius: 12px;
-            border: 1px solid rgba(26, 156, 85, 0.2);
-            background: #f8fafc;
+            border-radius: 14px;
+            border: 2px solid rgba(26, 156, 85, 0.45);
+            background: #ffffff;
+            box-shadow: 0 10px 24px rgba(26, 156, 85, 0.08);
             color: var(--ink);
             font-size: 1rem;
             outline: none;
             transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
         }
 
-        .search-input:focus { border-color: rgba(26, 156, 85, 0.65); box-shadow: 0 0 0 3px rgba(26, 156, 85, 0.18); background: #fff; }
+        .search-input:focus { border-color: rgba(26, 156, 85, 0.75); box-shadow: 0 0 0 4px rgba(26, 156, 85, 0.18); background: #fff; }
 
         .quick-filters {
             display: flex;
@@ -318,10 +324,17 @@
 
         .chip:hover { background: rgba(26, 156, 85, 0.16); border-color: rgba(26, 156, 85, 0.5); color: var(--green-strong); }
 
+        .table-meta {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 0.35rem;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 1rem;
+            margin-top: 0.35rem;
             background: #ffffff;
             border-radius: 14px;
             overflow: hidden;
@@ -373,8 +386,17 @@
 </head>
 <body>
 @php
-    $districts = $kampongs->map(fn($k) => $k->mukim->district->name)->unique()->values();
-    $mukims = $kampongs->map(fn($k) => $k->mukim->name)->unique()->values();
+    $districts = $kampongs->map(fn($k) => $k->mukim->district)->unique('id')->values();
+    $mukims = $kampongs->map(fn($k) => $k->mukim)->unique('id')->values();
+    $initialRows = $kampongs->map(fn ($k) => [
+        'district' => $k->mukim->district->name,
+        'district_bn' => $k->mukim->district->name_bn ?? $k->mukim->district->name,
+        'mukim' => $k->mukim->name,
+        'mukim_bn' => $k->mukim->name_bn ?? $k->mukim->name,
+        'kampong' => $k->name,
+        'kampong_bn' => $k->name_bn ?? $k->name,
+        'postcode' => $k->postcode,
+    ])->values();
 @endphp
     <div class="page">
         <header class="nav" aria-label="Primary">
@@ -476,40 +498,36 @@
             <p class="helper" data-i18n="search_helper">Use the colored chips to pre-fill searches. Green for district anchors, yellow for mukims.</p>
             <div class="quick-filters" aria-label="Quick filters">
                 @foreach ($districts as $district)
-                    <button class="chip" data-term="{{ $district }}">{{ $district }}</button>
+                    <button class="chip" data-term="{{ $district->name_bn ?? $district->name }}">{{ $district->name_bn ?? $district->name }}</button>
                 @endforeach
                 @foreach ($mukims->take(6) as $mukim)
-                    <button class="chip" data-term="{{ $mukim }}">{{ $mukim }}</button>
+                    <button class="chip" data-term="{{ $mukim->name_bn ?? $mukim->name }}">{{ $mukim->name_bn ?? $mukim->name }}</button>
                 @endforeach
             </div>
         </section>
 
-        <section id="table" class="panel" aria-labelledby="table-title">
-            <div class="section-heading">
-                <div>
-                    <h2 id="table-title" data-i18n="table_title">Browse the directory</h2>
-                    <span data-i18n="table_subtitle">Sorted view with sticky headers. Hover rows to spotlight locations.</span>
-                </div>
+        <section id="table" class="panel table-panel" aria-label="Directory table">
+            <div class="table-meta">
                 <div class="pill" data-i18n="table_status">Live · Updated</div>
             </div>
 
-            <table aria-describedby="table-title">
+            <table aria-label="Postcode directory">
                 <thead>
                     <tr>
-                        <th style="width: 70px;">#</th>
-                        <th>District</th>
-                        <th>Mukim</th>
-                        <th>Kampong</th>
-                        <th>Postcode</th>
+                        <th style="width: 70px;" data-i18n="column_no">#</th>
+                        <th data-i18n="column_district">District</th>
+                        <th data-i18n="column_mukim">Mukim</th>
+                        <th data-i18n="column_kampong">Kampong</th>
+                        <th data-i18n="column_postcode">Postcode</th>
                     </tr>
                 </thead>
                 <tbody>
                 @foreach ($kampongs as $kampong)
                     <tr>
                         <td class="mono">{{ $loop->iteration }}</td>
-                        <td><span class="pill green">{{ $kampong->mukim->district->name }}</span></td>
-                        <td><span class="pill">{{ $kampong->mukim->name }}</span></td>
-                        <td>{{ $kampong->name }}</td>
+                        <td><span class="pill green">{{ $kampong->mukim->district->name_bn ?? $kampong->mukim->district->name }}</span></td>
+                        <td><span class="pill">{{ $kampong->mukim->name_bn ?? $kampong->mukim->name }}</span></td>
+                        <td>{{ $kampong->name_bn ?? $kampong->name }}</td>
                         <td class="mono">{{ $kampong->postcode }}</td>
                     </tr>
                 @endforeach
@@ -526,6 +544,8 @@
         const clearButton = document.getElementById('clear-search');
         const langButtons = document.querySelectorAll('.lang-option');
         const langThumb = document.querySelector('.lang-thumb');
+        const initialRows = @json($initialRows);
+        let latestRows = initialRows;
 
         const translations = {
             en: {
@@ -561,6 +581,11 @@
                 table_title: 'Browse the directory',
                 table_subtitle: 'Sorted view with sticky headers. Hover rows to spotlight locations.',
                 table_status: 'Live · Updated',
+                column_no: '#',
+                column_district: 'District',
+                column_mukim: 'Mukim',
+                column_kampong: 'Kampong',
+                column_postcode: 'Postcode',
                 search_placeholder: 'Start typing to filter… (e.g., Brunei Muara, Gadong, Sengkurong)',
                 search_aria: 'Search by district, mukim, kampong or postcode',
                 empty_state: 'No matching records found.'
@@ -598,6 +623,11 @@
                 table_title: 'ডিরেক্টরি ব্রাউজ করুন',
                 table_subtitle: 'স্টিকি হেডারসহ সাজানো দৃশ্য। সারিতে হোভার করে অবস্থান দেখুন।',
                 table_status: 'লাইভ · আপডেটেড',
+                column_no: 'ক্রমিক',
+                column_district: 'জেলা',
+                column_mukim: 'মুকিম',
+                column_kampong: 'কাম্পং',
+                column_postcode: 'পোস্টকোড',
                 search_placeholder: 'ফিল্টার করতে টাইপ করুন… (যেমন, Brunei Muara, Gadong, Sengkurong)',
                 search_aria: 'জেলা, মুকিম, কাম্পং বা পোস্টকোড দিয়ে অনুসন্ধান করুন',
                 empty_state: 'মিলে যাওয়া কোনো রেকর্ড পাওয়া যায়নি।'
@@ -635,6 +665,8 @@
             if (!tableBody.querySelector('tr')) {
                 tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:1.2rem; color:var(--muted);">${emptyState}</td></tr>`;
             }
+
+            renderRows(latestRows);
         }
 
         function updateToggle(lang) {
@@ -648,18 +680,22 @@
         }
 
         function renderRows(rows) {
+            latestRows = rows;
+
             if (!rows.length) {
                 const emptyCopy = translations[document.documentElement.lang === 'bn' ? 'bn' : 'en'].empty_state;
                 tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:1.2rem; color:var(--muted);">${emptyCopy}</td></tr>`;
                 return;
             }
 
+            const useBangla = document.documentElement.lang === 'bn';
+
             const html = rows.map((row, index) => `
                 <tr>
                     <td class="mono">${index + 1}</td>
-                    <td><span class="pill green">${row.district}</span></td>
-                    <td><span class="pill">${row.mukim}</span></td>
-                    <td>${row.kampong}</td>
+                    <td><span class="pill green">${useBangla && row.district_bn ? row.district_bn : row.district}</span></td>
+                    <td><span class="pill">${useBangla && row.mukim_bn ? row.mukim_bn : row.mukim}</span></td>
+                    <td>${useBangla && row.kampong_bn ? row.kampong_bn : row.kampong}</td>
                     <td class="mono">${row.postcode}</td>
                 </tr>
             `).join('');
@@ -710,6 +746,7 @@
         });
 
         // Initialize with Bangla as the default language
+        renderRows(initialRows);
         updateToggle('bn');
         setLanguage('bn');
     </script>

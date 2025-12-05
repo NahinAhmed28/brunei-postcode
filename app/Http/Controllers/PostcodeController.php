@@ -41,9 +41,14 @@ class PostcodeController extends Controller
             ->with(['mukim.district'])
             ->when($term, function ($query) use ($term) {
                 $query->where(function ($q) use ($term) {
-                    $q->where('districts.name', 'like', "%{$term}%")
-                        ->orWhere('mukims.name', 'like', "%{$term}%")
-                        ->orWhere('kampongs.name', 'like', "%{$term}%");
+                    $likeTerm = "%{$term}%";
+
+                    $q->where('districts.name', 'like', $likeTerm)
+                        ->orWhere('districts.name_bn', 'like', $likeTerm)
+                        ->orWhere('mukims.name', 'like', $likeTerm)
+                        ->orWhere('mukims.name_bn', 'like', $likeTerm)
+                        ->orWhere('kampongs.name', 'like', $likeTerm)
+                        ->orWhere('kampongs.name_bn', 'like', $likeTerm);
                 });
             })
             ->orderBy('districts.name')
@@ -53,8 +58,11 @@ class PostcodeController extends Controller
 
         $data = $kampongs->map(fn ($kampong) => [
             'district' => $kampong->mukim->district->name,
+            'district_bn' => $kampong->mukim->district->name_bn,
             'mukim' => $kampong->mukim->name,
+            'mukim_bn' => $kampong->mukim->name_bn,
             'kampong' => $kampong->name,
+            'kampong_bn' => $kampong->name_bn,
             'postcode' => $kampong->postcode,
         ])->values();
 

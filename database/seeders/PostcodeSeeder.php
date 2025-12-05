@@ -692,23 +692,36 @@ class PostcodeSeeder extends Seeder
 
         DB::transaction(function () use ($dataset) {
             foreach ($dataset as $districtData) {
-                $district = District::firstOrCreate([
-                    'name' => $districtData['name'],
-                ]);
+                $districtData = $this->applyBanglaName($districtData);
+
+                $district = District::firstOrCreate(
+                    ['name' => $districtData['name']],
+                    ['name_bn' => $districtData['name_bn']]
+                );
 
                 foreach ($districtData['mukims'] as $mukimData) {
-                    $mukim = Mukim::firstOrCreate([
-                        'district_id' => $district->id,
-                        'name' => $mukimData['name'],
-                    ]);
+                    $mukimData = $this->applyBanglaName($mukimData);
+
+                    $mukim = Mukim::firstOrCreate(
+                        [
+                            'district_id' => $district->id,
+                            'name' => $mukimData['name'],
+                        ],
+                        [
+                            'name_bn' => $mukimData['name_bn'],
+                        ]
+                    );
 
                     foreach ($mukimData['kampongs'] as $kampongData) {
+                        $kampongData = $this->applyBanglaName($kampongData);
+
                         Kampong::updateOrCreate(
                             [
                                 'mukim_id' => $mukim->id,
                                 'name' => $kampongData['name'],
                             ],
                             [
+                                'name_bn' => $kampongData['name_bn'],
                                 'postcode' => $kampongData['postcode'],
                             ]
                         );
@@ -716,5 +729,60 @@ class PostcodeSeeder extends Seeder
                 }
             }
         });
+    }
+
+    /**
+     * Ensure every record carries a Bangla rendering.
+     */
+    private function applyBanglaName(array $item): array
+    {
+        if (!isset($item['name_bn']) || $item['name_bn'] === '') {
+            $item['name_bn'] = $this->banglaName($item['name']);
+        }
+
+        return $item;
+    }
+
+    /**
+     * Lightweight transliteration for location names.
+     */
+    private function banglaName(string $name): string
+    {
+        $replacements = [
+            'Kampong' => 'কাম্পং',
+            'Kampung' => 'কাম্পং',
+            'Mukim' => 'মুকিম',
+            'Skim' => 'স্কিম',
+            'Tanah' => 'তানাহ',
+            'Kurnia' => 'কুরনিয়া',
+            'Rakyat' => 'রাকইয়াত',
+            'Jati' => 'জাতি',
+            'Perumahan' => 'পেরুমাহান',
+            'Negara' => 'নেগারা',
+            'Kawasan' => 'কাওয়াসান',
+            'Lapangan' => 'লাপাংগান',
+            'Terbang' => 'তেরবাং',
+            'Antarabangsa' => 'আন্তারাবাংসা',
+            'Perindustrian' => 'পরিন্দুস্ত্রিয়ান',
+            'Perpindahan' => 'পেরপিন্ডাহান',
+            'Kementerian' => 'কেমেনতেরিয়ান',
+            'Kerajaan' => 'কেরাজান',
+            'Perdagangan' => 'পেরদাগাঙ্গান',
+            'Bandar' => 'বান্দার',
+            'Pusat' => 'পুসাত',
+            'PUSAT BANDAR' => 'পুসাত বান্দার',
+            'Jabatan' => 'জাবাতান',
+            'Pulau' => 'পুলাউ',
+            'Sungai' => 'সুংগাই',
+            'Kuala' => 'কুয়ালা',
+            'STKRJ' => 'এসটিকেআরজে',
+            'Brunei' => 'ব্রুনাই',
+            'Muara' => 'মুয়ারা',
+            'Tutong' => 'তুতং',
+            'Belait' => 'বেলাইত',
+            'Temburong' => 'তেম্বুরং',
+        ];
+
+        return str_replace(array_keys($replacements), array_values($replacements), $name);
     }
 }
