@@ -46,6 +46,38 @@
             margin-bottom: 1.5rem;
         }
 
+        .search-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-label {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 260px;
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            font-size: 1rem;
+            background: #f8fafc;
+            color: #0f172a;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+            background: #ffffff;
+        }
+
         .badge {
             display: inline-flex;
             align-items: center;
@@ -137,6 +169,18 @@
                 </div>
             </div>
 
+            <div class="search-row">
+                <span class="search-label">Search</span>
+                <input
+                    type="search"
+                    id="search"
+                    class="search-input"
+                    placeholder="Type district, mukim, or kampong name..."
+                    aria-label="Search by district, mukim, or kampong"
+                    autocomplete="off"
+                >
+            </div>
+
             <table>
                 <thead>
                     <tr>
@@ -161,5 +205,48 @@
             </table>
         </div>
     </div>
+
+    <script>
+        const searchInput = document.getElementById('search');
+        const tableBody = document.querySelector('tbody');
+        const searchUrl = @json(route('postcodes.search'));
+
+        function renderRows(rows) {
+            if (!rows.length) {
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:1.2rem; color:#475569;">No matching records found.</td></tr>';
+                return;
+            }
+
+            const html = rows.map((row, index) => `
+                <tr>
+                    <td class="mono">${index + 1}</td>
+                    <td>${row.district}</td>
+                    <td>${row.mukim}</td>
+                    <td>${row.kampong}</td>
+                    <td class="mono">${row.postcode}</td>
+                </tr>
+            `).join('');
+
+            tableBody.innerHTML = html;
+        }
+
+        async function fetchResults(term) {
+            try {
+                const response = await fetch(`${searchUrl}?q=${encodeURIComponent(term)}`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const { data } = await response.json();
+                renderRows(data);
+            } catch (error) {
+                console.error('Search error:', error);
+            }
+        }
+
+        let debounceTimer;
+        searchInput.addEventListener('input', (event) => {
+            const term = event.target.value;
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => fetchResults(term), 200);
+        });
+    </script>
 </body>
 </html>
