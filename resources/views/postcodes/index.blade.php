@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -388,8 +388,8 @@
             <div class="nav-right">
                 <div class="lang-toggle" role="group" aria-label="Language selection">
                     <div class="lang-thumb" aria-hidden="true"></div>
-                    <button class="lang-option active" data-lang="en" type="button">English</button>
-                    <button class="lang-option" data-lang="bn" type="button">বাংলা</button>
+                    <button class="lang-option" data-lang="en" type="button">English</button>
+                    <button class="lang-option active" data-lang="bn" type="button">বাংলা</button>
                 </div>
                 <nav class="nav-links">
                     <a href="#overview" data-i18n="nav_overview">Overview</a>
@@ -709,8 +709,9 @@
             });
         });
 
-        // Initialize with English
-        setLanguage('en');
+        // Initialize with Bangla as the default language
+        updateToggle('bn');
+        setLanguage('bn');
     </script>
 </body>
 </html>
