@@ -265,16 +265,16 @@
             box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
         }
 
-        .section-heading {
+        .panel-heading {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.35rem;
         }
 
-        .section-heading h2 { margin: 0; color: var(--ink); font-size: 1.35rem; }
-        .section-heading span { color: var(--muted); }
+        .panel-heading h2 { margin: 0; color: var(--ink); font-size: 1.35rem; }
+        .panel-heading span { color: var(--muted); }
 
         .search-row {
             display: grid;
@@ -451,7 +451,7 @@
         </section>
 
         <section id="search" class="panel" aria-labelledby="search-title">
-            <div class="section-heading">
+            <div class="panel-heading">
                 <div>
                     <h2 id="search-title" data-i18n="search_title">Advanced navigation</h2>
                     <span data-i18n="search_subtitle">Search by district, mukim, kampong, or postcode. Use quick filters to jump around.</span>
@@ -485,7 +485,7 @@
         </section>
 
         <section id="table" class="panel" aria-labelledby="table-title">
-            <div class="section-heading">
+            <div class="panel-heading">
                 <div>
                     <h2 id="table-title" data-i18n="table_title">Browse the directory</h2>
                     <span data-i18n="table_subtitle">Sorted view with sticky headers. Hover rows to spotlight locations.</span>

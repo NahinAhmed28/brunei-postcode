@@ -692,15 +692,21 @@ class PostcodeSeeder extends Seeder
 
         DB::transaction(function () use ($dataset) {
             foreach ($dataset as $districtData) {
-                $district = District::firstOrCreate([
-                    'name' => $districtData['name'],
-                ]);
+                $district = District::updateOrCreate(
+                    ['name' => $districtData['name']],
+                    ['name_bn' => $districtData['bn_name'] ?? $districtData['name']]
+                );
 
                 foreach ($districtData['mukims'] as $mukimData) {
-                    $mukim = Mukim::firstOrCreate([
-                        'district_id' => $district->id,
-                        'name' => $mukimData['name'],
-                    ]);
+                    $mukim = Mukim::updateOrCreate(
+                        [
+                            'district_id' => $district->id,
+                            'name' => $mukimData['name'],
+                        ],
+                        [
+                            'name_bn' => $mukimData['bn_name'] ?? $mukimData['name'],
+                        ]
+                    );
 
                     foreach ($mukimData['kampongs'] as $kampongData) {
                         Kampong::updateOrCreate(
@@ -709,6 +715,7 @@ class PostcodeSeeder extends Seeder
                                 'name' => $kampongData['name'],
                             ],
                             [
+                                'name_bn' => $kampongData['bn_name'] ?? $kampongData['name'],
                                 'postcode' => $kampongData['postcode'],
                             ]
                         );
